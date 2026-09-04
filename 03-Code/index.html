@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Mapa interactivo del formato de instrucciones de Gemma 4.">
+  <title>Gemma 4 / Agent Protocol</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="Web/styles.css">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Gemma 4 inicio">
+      <span class="brand-mark">G4</span>
+      <span>AGENT<br><em>PROTOCOL</em></span>
+    </a>
+    <nav class="nav-links" aria-label="Navegación principal">
+      <a href="#tokens">Tokens</a>
+      <a href="#builder">Constructor</a>
+      <a href="https://ai.google.dev/gemma/docs/core/prompt-formatting-gemma4?hl=es-419" target="_blank" rel="noreferrer">Docs ↗</a>
+    </nav>
+    <span class="status"><i></i> Offline / v4</span>
+  </header>
+
+  <main id="top">
+    <section class="hero shell">
+      <div class="hero-copy">
+        <p class="eyebrow">Formato de instrucciones · 2026</p>
+        <h1>Habla con<br><span>Gemma 4.</span></h1>
+        <p class="hero-lede">Un mapa de bolsillo para construir prompts, exponer herramientas y mantener el pensamiento donde pertenece: fuera de la respuesta visible.</p>
+        <div class="hero-actions">
+          <a class="button button-dark" href="#builder">Abrir constructor <span>↓</span></a>
+          <a class="text-link" href="#flow">Ver el ciclo <span>↗</span></a>
+        </div>
+      </div>
+      <div class="hero-orbit" aria-label="Diagrama del ciclo del agente">
+        <div class="orbit-ring ring-one"></div>
+        <div class="orbit-ring ring-two"></div>
+        <div class="orbit-core"><span>GEMMA</span><strong>4</strong><small>agent ready</small></div>
+        <span class="orbit-label label-system">system</span>
+        <span class="orbit-label label-user">user</span>
+        <span class="orbit-label label-tool">tool</span>
+        <span class="orbit-label label-model">model</span>
+      </div>
+    </section>
+
+    <section class="signal-strip shell" aria-label="Resumen del protocolo">
+      <div><span class="metric-number">05</span><span>roles / turnos</span></div>
+      <div><span class="metric-number">06</span><span>tokens de agente</span></div>
+      <div><span class="metric-number">∞</span><span>herramientas posibles</span></div>
+      <div class="strip-note">texto · audio · imagen · vídeo</div>
+    </section>
+
+    <section class="section shell" id="tokens">
+      <div class="section-heading">
+        <div><p class="eyebrow">01 / Control surface</p><h2>El vocabulario<br>del protocolo.</h2></div>
+        <p class="section-intro">Los tokens de Gemma 4 son pequeñas bisagras: delimitan quién habla, cuándo razona y cuándo el mundo exterior puede entrar.</p>
+      </div>
+      <div class="token-grid">
+        <button class="token-card active" data-token="turn" type="button"><span class="token-index">01</span><code>&lt;|turn&gt;</code><strong>Turnos</strong><p>Abre un mensaje con su rol: system, user o model.</p></button>
+        <button class="token-card" data-token="think" type="button"><span class="token-index">02</span><code>&lt;|think|&gt;</code><strong>Pensamiento</strong><p>Activa el canal interno de razonamiento del modelo.</p></button>
+        <button class="token-card" data-token="call" type="button"><span class="token-index">03</span><code>&lt;|tool_call&gt;</code><strong>Acción</strong><p>Solicita a tu aplicación que ejecute una función.</p></button>
+        <button class="token-card" data-token="response" type="button"><span class="token-index">04</span><code>&lt;|tool_response&gt;</code><strong>Retorno</strong><p>Devuelve el resultado de la herramienta al modelo.</p></button>
+        <button class="token-card" data-token="media" type="button"><span class="token-index">05</span><code>&lt;|image|&gt;</code><strong>Multimodal</strong><p>Marca el punto exacto donde entran imágenes o audio.</p></button>
+      </div>
+      <div class="token-detail" id="token-detail"><span class="detail-dot"></span><p>Selecciona una pieza del vocabulario para inspeccionarla.</p><code>&lt;turn|&gt;</code></div>
+    </section>
+
+    <section class="flow-band" id="flow">
+      <div class="shell">
+        <div class="section-heading inverse">
+          <div><p class="eyebrow">02 / Runtime loop</p><h2>De pregunta<br>a respuesta.</h2></div>
+          <p class="section-intro">Una llamada a herramienta no es el final del turno. Es una pausa precisa: el modelo pide, tu código ejecuta, el modelo continúa.</p>
+        </div>
+        <div class="flow-line">
+          <div class="flow-step"><span>01</span><b>Consulta</b><p>El usuario formula una intención.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step highlighted"><span>02</span><b>Pensamiento</b><p>El modelo prepara su siguiente acción.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step"><span>03</span><b>Tool call</b><p>Tu runtime intercepta y ejecuta.</p></div>
+          <div class="flow-arrow">→</div>
+          <div class="flow-step"><span>04</span><b>Respuesta</b><p>El resultado vuelve al contexto.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shell builder-section" id="builder">
+      <div class="section-heading">
+        <div><p class="eyebrow">03 / Prompt lab</p><h2>Ensambla<br>un turno.</h2></div>
+        <p class="section-intro">Cambia el rol, escribe una intención y observa el prompt de Gemma 4 aparecer con sus delimitadores reales.</p>
+      </div>
+      <div class="builder-grid">
+        <div class="builder-controls">
+          <label for="role">Rol del mensaje</label>
+          <div class="segmented" role="group" aria-label="Rol del mensaje">
+            <button class="segmented-button active" data-role="user" type="button">user</button>
+            <button class="segmented-button" data-role="system" type="button">system</button>
+            <button class="segmented-button" data-role="model" type="button">model</button>
+          </div>
+          <label for="prompt-input">Contenido</label>
+          <textarea id="prompt-input" rows="5" placeholder="Escribe una instrucción...">Describe el ciclo de una herramienta en una frase.</textarea>
+          <div class="builder-footer"><span id="char-count">57 caracteres</span><button class="button button-orange" id="copy-prompt" type="button">Copiar prompt <span>↗</span></button></div>
+        </div>
+        <div class="code-window">
+          <div class="code-top"><span><i></i><i></i><i></i></span><small>gemma_prompt.txt</small><button id="reset-prompt" type="button">reset</button></div>
+          <pre id="prompt-output" aria-live="polite"></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool-demo shell">
+      <div class="tool-copy"><p class="eyebrow">04 / Tool call</p><h2>La herramienta<br>entra en escena.</h2><p>Prueba el formato estructurado que conecta el modelo con una función local. Los valores de texto siempre llevan su propio delimitador.</p><button class="button button-dark" id="run-tool" type="button">Ejecutar simulación <span>→</span></button></div>
+      <div class="terminal-card" id="terminal-card"><div class="terminal-head"><span>runtime / local</span><span class="terminal-light"><i></i> ready</span></div><div class="terminal-body"><p class="terminal-muted">$ agent.listen()</p><p id="tool-call-line"><span class="prompt-caret">›</span> esperando una llamada...</p><p id="tool-result-line" class="hidden"><span class="result-mark">✓</span> Madrid · 18 C · sunny</p></div></div>
+    </section>
+  </main>
+
+  <footer class="footer shell"><span>GEMMA 4 / AGENT PROTOCOL</span><span>Built for curious systems.</span><a href="https://ai.google.dev/gemma/docs/core/prompt-formatting-gemma4?hl=es-419" target="_blank" rel="noreferrer">Fuente oficial ↗</a></footer>
+  <script src="Web/app.js"></script>
+</body>
+</html>
